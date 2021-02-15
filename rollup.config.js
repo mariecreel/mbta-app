@@ -66,8 +66,13 @@ export default {
 			sourceMap: !production,
 			inlineSources: !production
 		}),
-		
-		plugins: [babel({ babelHelpers: 'bundled' })],
+		// trying to get babel and svelte working together
+		// see https://github.com/sveltejs/svelte/issues/3388#issuecomment-535287456
+		babel({
+			babelHelpers: 'bundled',
+			extensions: ['.js', '.mjs', '.html', '.svelte'],
+  		include: ['src/**', 'node_modules/svelte/**'],
+		}),
 
 		// In dev mode, call `npm run start` once
 		// the bundle has been generated
