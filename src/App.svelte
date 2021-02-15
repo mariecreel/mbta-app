@@ -1,21 +1,18 @@
-<script lang="ts">
-	export let name: string;
-</script>
-
 <main>
-	<h1>T</h1>
+	<h1>MBTA Subway System</h1>
 </main>
 
-<style>
+<style lang="scss">
+
 	main {
 		text-align: center;
 		padding: 1em;
 		max-width: 240px;
 		margin: 0 auto;
+		font-family:	Helvetica;
 	}
 
 	h1 {
-		color: #ff3e00;
 		font-size: 4em;
 		font-weight: 100;
 	}
