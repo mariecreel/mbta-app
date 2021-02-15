@@ -7,6 +7,7 @@ import sveltePreprocess from 'svelte-preprocess';
 import typescript from '@rollup/plugin-typescript';
 import css from 'rollup-plugin-css-only';
 import { scss } from 'svelte-preprocess';
+import { babel } from '@rollup/plugin-babel';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -66,6 +67,8 @@ export default {
 			inlineSources: !production
 		}),
 		
+		plugins: [babel({ babelHelpers: 'bundled' })],
+
 		// In dev mode, call `npm run start` once
 		// the bundle has been generated
 		!production && serve(),
