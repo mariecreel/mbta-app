@@ -1,6 +1,11 @@
+<script>
+	import Mbtaapi from './mbta-api.svelte';
+</script>
+
 <main>
 	<h1>MBTA Subway System</h1>
 </main>
+<Mbtaapi/>
 
 <style lang="scss">
 
