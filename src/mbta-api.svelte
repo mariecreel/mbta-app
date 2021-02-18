@@ -1,10 +1,11 @@
 <script type="text/ts">
   import { onMount } from "svelte";
 
-  let query = "alerts"
+  let query = "alerts" // in the future, prob change to routes / predictions
   const apiKey = "9692d1a17a814d86822248b3ee1b339d";
   const apiURL = `https://api-v3.mbta.com/${query}?api_key=${apiKey}&sort=description&filter%5Bactivity%5D=BOARD%2CEXIT%2CRIDE&filter%5Broute_type%5D=0&filter%5Broute%5D=Orange,Blue,Green,Red`;
-  let object = {};
+  // at some point, options for this query will be decided by user selections
+  let object = {}; // want to avoid "data.data" later bc it's confusing
 
   onMount(async function(){
     const response = await fetch(apiURL);
