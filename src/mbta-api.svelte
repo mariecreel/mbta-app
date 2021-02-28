@@ -1,19 +1,36 @@
 <script type="text/ts">
   import { onMount } from "svelte";
 
-  let query = "alerts" // in the future, prob change to routes / predictions
+  let query = "predictions" // in the future, prob change to routes / predictions
+  let route="Green-B";
+  let stop="place-wrnst"; // Warren st
+  let direction="1" //towards Park Street
   const apiKey = "9692d1a17a814d86822248b3ee1b339d";
-  const apiURL = `https://api-v3.mbta.com/${query}?api_key=${apiKey}&sort=description&filter%5Bactivity%5D=BOARD%2CEXIT%2CRIDE&filter%5Broute_type%5D=0&filter%5Broute%5D=Orange,Blue,Green,Red`;
+  const apiURL = `https://api-v3.mbta.com/${query}?api_key=${apiKey}&filter[route]=${route}&filter[stop]=${stop}&filter[direction_id]=${direction}&include=vehicle,trip,stop`;
   // at some point, options for this query will be decided by user selections
   let object = {}; // want to avoid "data.data" later bc it's confusing
 
   onMount(async function(){
     const response = await fetch(apiURL);
     object = await response.json();
-    console.log(object.data)
+    console.log(object)
   })
-
 </script>
+
+<style type="text/css">
+  .data-display{
+    max-width: 60%;
+    margin: 0 auto;
+  }
+  .data-item{
+    border-style: solid;
+    border-width: medium;
+    border-radius: 5px 5px 5px 5px;
+    margin: 5px;
+    padding: 5px;
+    max-width: 50%;
+  }
+</style>
 
 {#if typeof object.data !== 'undefined'}
 <!--
@@ -24,14 +41,20 @@
   have a condition here for the undefined (i.e. not fetched yet) case.
 -->
   <div class="data-display">
-    {#each object.data as alert} <!-- TODO change name when not alerts -->
+    <h2>When will the next train arrive at my stop?</h2>
+    <h3>Results: {object.data.length}</h3>
+    {#each object.data as prediction}
       <div class="data-item">
-        <h2>Alert: {alert.attributes.effect}</h2>
-        <h3>Service Effect: {alert.attributes.service_effect}</h3>
-        <h3>Cause: {alert.attributes.cause}</h3>
-        <p>{alert.attributes.header}</p> <!--sometimes desc. is here-->
-        <p>{alert.attributes.description}</p>
+        <h3>Line: {prediction.relationships.route.data.id}</h3>
+        <h3>Stop: {object.included[0].attributes.description} </h3>
+        <h3>Direction: {object.included[1].attributes.headsign}</h3>
+        <!-- headsign = last stop on current route, depening on direction -->
+        <h3>Arrival Time: {new Date(
+                          prediction.attributes.arrival_time
+                          ).toTimeString()}</h3>
+                          <!-- make time human readable -->
       </div>
     {/each}
   </div>
+
 {/if}
