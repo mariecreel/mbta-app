@@ -45,16 +45,16 @@
     <h3>Results: {object.data.length}</h3>
     {#each object.data as prediction}
       <div class="data-item">
-        <ul>
-        <li>Line: {prediction.relationships.route.data.id}</li>
-        <li>Stop: {object.included[0].attributes.description} </li>
-        <li>Direction: {object.included[1].attributes.headsign}</li>
+        <h3>Line</h3>
+        <p>{prediction.relationships.route.data.id}</p>
+        <h3>Stop</h3>
+        <p>{object.included[0].attributes.description} </p>
+        <h3>Direction</h3>
+        <p>{object.included[1].attributes.headsign}</p>
         <!-- headsign = last stop on current route, depening on direction -->
-        <li>Arrival Time: {new Date(
-                          prediction.attributes.arrival_time
-                          ).toTimeString()}</li>
-                          <!-- make time human readable -->
-        </ul>
+        <h3>Arrival Time</h3>
+        <p>{new Date(prediction.attributes.arrival_time).toTimeString()}</p>
+        <!-- make time human readable -->
       </div>
     {/each}
   </div>
