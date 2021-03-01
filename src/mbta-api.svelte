@@ -1,7 +1,7 @@
 <script type="text/ts">
   import { onMount } from "svelte";
 
-  let query = "predictions" // in the future, prob change to routes / predictions
+  let query = "predictions" 
   let route="Green-B";
   let stop="place-wrnst"; // Warren st
   let direction="1" //towards Park Street
