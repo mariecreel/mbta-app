@@ -1,10 +1,12 @@
 <script>
 	import Mbtaapi from './mbta-api.svelte';
+	import SelectStops from './select-stops.svelte'
 </script>
 
 <main>
 	<h1>MBTA Subway System</h1>
 </main>
+<SelectStops/>
 <Mbtaapi/>
 
 <style lang="scss">

@@ -1,11 +1,11 @@
 <script type="text/ts">
   import { onMount } from "svelte";
 
-  let query = "predictions" 
+  let query = "predictions"
   let route="Green-B";
   let stop="place-wrnst"; // Warren st
   let direction="1" //towards Park Street
-  const apiKey = "9692d1a17a814d86822248b3ee1b339d";
+  export const apiKey = "9692d1a17a814d86822248b3ee1b339d";
   const apiURL = `https://api-v3.mbta.com/${query}?api_key=${apiKey}&filter[route]=${route}&filter[stop]=${stop}&filter[direction_id]=${direction}&include=vehicle,trip,stop`;
   // at some point, options for this query will be decided by user selections
   let object = {}; // want to avoid "data.data" later bc it's confusing
