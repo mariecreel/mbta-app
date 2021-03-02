@@ -48,10 +48,17 @@
     <option value="Red">Red</option>
   </select>
   <label for="stop">Which stop? (select line first)</label>
+  <!-- this select list populated based on which line is chosen using an API call -->
   <select name="stop" id="stop" form="stop">
+
     <option disabled>Please select a line first</option>
   </select>
   <label for="direction">Which direction?</label>
   <select name="direction" id="direction" form="direction">
+    <!-- this select list populated based on which line is chosen using an API
+         call...want to make the text more descriptive but depends on line
+         chosen by user. use dummy values 0 and 1 to test API calls tho -->
+    <option value="0">0</option>
+    <option value="1">1</option>
   </select>
 </div>
