@@ -3,8 +3,8 @@
   const apiKey = "9692d1a17a814d86822248b3ee1b339d";
 
   async function getStops(trainLine){
-    let apiURL = `https://api-v3.mbta.com/stops?api_key=${apiKey}&filter[route]=${trainLine}`
-    const response = await fetch(apiURL);
+    let apiURLStops = `https://api-v3.mbta.com/stops?api_key=${apiKey}&filter[route]=${trainLine}`
+    const response = await fetch(apiURLStops);
     let object = await response.json();
     let selectStop = document.getElementById("stop")
 
@@ -30,6 +30,13 @@
     }
 </script>
 
+<style>
+  .selectBox{
+    width: 60%;
+    margin: 0 auto;
+  }
+</style>
+
 <div class="selectBox">
   <label for="line">Which line?</label>
   <select name="line" id="line" form="line" on:input={getLine}>
@@ -42,8 +49,9 @@
   </select>
   <label for="stop">Which stop? (select line first)</label>
   <select name="stop" id="stop" form="stop">
+    <option disabled>Please select a line first</option>
+  </select>
+  <label for="direction">Which direction?</label>
+  <select name="direction" id="direction" form="direction">
   </select>
 </div>
-<!-- TODO: how to use value of select? how to do events properly in svelte? -->
-<!-- i.e. how to pass select value to async function? -->
-<!-- TODO: conditional select: get stops then let user select stops -->
