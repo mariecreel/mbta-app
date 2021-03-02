@@ -41,7 +41,8 @@
   have a condition here for the undefined (i.e. not fetched yet) case.
 -->
 <!--TODO: Need to handle the case that where there are multple vehicles
-          because right now, when there are multiple, stop becomes undefined-->
+          because right now, when there are multiple, stop becomes undefined
+          note: data contains vehicle, but not headsign or stop name-->
   <div class="data-display">
     <h2>When will the next train arrive at my stop?</h2>
     <h3>Results: {object.data.length}</h3>
