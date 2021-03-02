@@ -10,3 +10,4 @@
 </select>
 <!-- TODO: how to use value of select? how to do events properly in svelte? -->
 <!-- i.e. how to pass select value to async function? -->
+<!-- TODO: conditional select: get stops then let user select stops -->
