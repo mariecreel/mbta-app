@@ -25,8 +25,10 @@
   }
 
   function getLine(event){
-      let line = this.value
-      getStops(line)
+      if(this.value != ""){ // handling empty input at top of box
+        let line = this.value
+        getStops(line)
+      }
     }
 </script>
 
@@ -40,6 +42,9 @@
 <div class="selectBox">
   <label for="line">Which line?</label>
   <select name="line" id="line" form="line" on:input={getLine}>
+    <option></option> <!-- before adding this, selecting blue did nothing
+                           unless you selected another line, which would
+                           probably be really annoying as a user-->
     <option value="Blue">Blue</option>
     <option value="Green-B">Green Line - B</option>
     <option value="Green-C">Green Line - C</option>
