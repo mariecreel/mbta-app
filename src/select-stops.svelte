@@ -8,5 +8,5 @@
   <option value="Orange">Orange</option>
   <option value="Red">Red</option>
 </select>
-<button value="submit" on:click={console.log("clicked")}>Submit</button>
-<!-- TODO: how to use value of select? how to do events properly in svelte?-->
+<!-- TODO: how to use value of select? how to do events properly in svelte? -->
+<!-- i.e. how to pass select value to async function? -->
