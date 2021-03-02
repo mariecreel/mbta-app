@@ -1,13 +1,49 @@
-<label for="line">Which line?</label>
-<select name="line" id="line" form="line">
-  <option value="Blue">Blue</option>
-  <option value="Green-A">Green Line - A</option>
-  <option value="Green-B">Green Line - B</option>
-  <option value="Green-C">Green Line - C</option>
-  <option value="Green-D">Green Line - D</option>
-  <option value="Orange">Orange</option>
-  <option value="Red">Red</option>
-</select>
+<script type="text/ts">
+  import { onMount } from "svelte";
+  const apiKey = "9692d1a17a814d86822248b3ee1b339d";
+
+  async function getStops(trainLine){
+    let apiURL = `https://api-v3.mbta.com/stops?api_key=${apiKey}&filter[route]=${trainLine}`
+    const response = await fetch(apiURL);
+    let object = await response.json();
+    let selectStop = document.getElementById("stop")
+
+    if(selectStop.children.length != 0){
+      // want select list to clear every time we change lines
+      while (selectStop.firstChild){
+        selectStop.removeChild(selectStop.lastChild)
+      }
+    }
+
+    for(let i=0; i<object.data.length; i++){
+      // create an option for each stop
+      let option = document.createElement("option");
+      option.value = object.data[i].id
+      option.text = object.data[i].attributes.name
+      selectStop.appendChild(option)
+    }
+  }
+
+  function getLine(event){
+      let line = this.value
+      getStops(line)
+    }
+</script>
+
+<div class="selectBox">
+  <label for="line">Which line?</label>
+  <select name="line" id="line" form="line" on:input={getLine}>
+    <option value="Blue">Blue</option>
+    <option value="Green-B">Green Line - B</option>
+    <option value="Green-C">Green Line - C</option>
+    <option value="Green-D">Green Line - D</option>
+    <option value="Orange">Orange</option>
+    <option value="Red">Red</option>
+  </select>
+  <label for="stop">Which stop? (select line first)</label>
+  <select name="stop" id="stop" form="stop">
+  </select>
+</div>
 <!-- TODO: how to use value of select? how to do events properly in svelte? -->
 <!-- i.e. how to pass select value to async function? -->
 <!-- TODO: conditional select: get stops then let user select stops -->
