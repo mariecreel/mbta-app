@@ -9,3 +9,4 @@
   <option value="Red">Red</option>
 </select>
 <button value="submit" on:click={console.log("clicked")}>Submit</button>
+<!-- TODO: how to use value of select? how to do events properly in svelte?-->
