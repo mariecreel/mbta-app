@@ -40,6 +40,8 @@
   to render this component before the information is received if we don't
   have a condition here for the undefined (i.e. not fetched yet) case.
 -->
+<!--TODO: Need to handle the case that where there are multple vehicles
+          because right now, when there are multiple, stop becomes undefined-->
   <div class="data-display">
     <h2>When will the next train arrive at my stop?</h2>
     <h3>Results: {object.data.length}</h3>
@@ -48,9 +50,9 @@
         <h3>Line</h3>
         <p>{prediction.relationships.route.data.id}</p>
         <h3>Stop</h3>
-        <p>{object.included[0].attributes.description} </p>
+        <p>{object.included[2].attributes.name} </p>
         <h3>Direction</h3>
-        <p>{object.included[1].attributes.headsign}</p>
+        <p>{object.included[0].attributes.headsign}</p>
         <!-- headsign = last stop on current route, depening on direction -->
         <h3>Arrival Time</h3>
         <p>{new Date(prediction.attributes.arrival_time).toTimeString()}</p>
