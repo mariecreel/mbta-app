@@ -63,7 +63,7 @@
     <!-- this select list populated based on which line is chosen using an API
          call...want to make the text more descriptive but depends on line
          chosen by user. use dummy values 0 and 1 to test API calls tho -->
-    <option value="0">0</option>
-    <option value="1">1</option>
+    <option value="0">Towards First Stop</option>
+    <option value="1">Towards Last Stop</option>
   </select>
 </div>
