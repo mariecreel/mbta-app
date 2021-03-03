@@ -2,13 +2,14 @@
   import { onMount } from "svelte";
   const apiKey = "9692d1a17a814d86822248b3ee1b339d";
 
-  let line: string;
-  let stop: string;
-  let direction_id: string;
+  export let line: string; // these values are going to be used to make
+  export let stop: string; // predictions in a second component
+  export let direction_id: string;
   let fetchedLines = {};
 
   async function getStops(trainLine){
-    /* getStops(trainLine: string)
+    /*
+      async function getStops(trainLine: string):
       this function takes a string representing an MBTA subway line as input,
       then fetches the stops on that subway line and populates the stop select
       box based on the line selected by the user. If the stop select box has
@@ -23,7 +24,7 @@
       of making an API call, the stop selection box is populated by the
       information stored in the fetchedLines object. This is intended to avoid
       redundant API calls.
-       */
+    */
 
     let selectStop = document.getElementById("stop");
 
@@ -79,7 +80,7 @@
       console.log(stop)
     }
   }
-  
+
 </script>
 
 <style>
