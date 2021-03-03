@@ -72,12 +72,14 @@
         getStops(line)
       }
     }
+
   function handleStop(event){
     if(this.value != ""){
       stop = this.value;
       console.log(stop)
     }
   }
+  
 </script>
 
 <style>
