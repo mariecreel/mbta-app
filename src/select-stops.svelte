@@ -35,7 +35,7 @@
       }
     }
 
-    if(fetchedLines[trainLine]){
+    if(fetchedLines[trainLine]){ // if we saved the stops on this line already
       console.log("Seen line")
       for(let i = 0; i < fetchedLines[trainLine].length; i++){
           let option = document.createElement("option");
@@ -44,7 +44,7 @@
           selectStop.appendChild(option)
       }
 
-    } else {
+    } else { // else we haven't fetched the stops for this line yet
       console.log("Unseen Line")
       let apiURLStops = `https://api-v3.mbta.com/stops?api_key=${apiKey}&filter[route]=${trainLine}`
       const response = await fetch(apiURLStops);
@@ -84,36 +84,52 @@
 </script>
 
 <style>
-  .selectBox{
+  .select{
     width: 60%;
     margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .selectBox{
+    display:flex;
+    flex-direction: column;
+    margin: 5px;
   }
 </style>
 
-<div class="selectBox">
-  <label for="line">Which line?</label>
-  <select name="line" id="line" form="line" on:input={handleLine}>
-    <option></option> <!-- before adding this, selecting blue did nothing
-                           unless you selected another line, which would
-                           probably be really annoying as a user-->
-    <option value="Blue">Blue</option>
-    <option value="Green-B">Green Line - B</option>
-    <option value="Green-C">Green Line - C</option>
-    <option value="Green-D">Green Line - D</option>
-    <option value="Orange">Orange</option>
-    <option value="Red">Red</option>
-  </select>
-  <label for="stop">Which stop? (select line first)</label>
-  <!-- this select list populated based on which line is chosen using an API call -->
-  <select name="stop" id="stop" form="stop" on:input={handleStop}>
-    <option disabled>Please select a line first</option>
-  </select>
-  <label for="direction">Which direction?</label>
-  <select name="direction" id="direction" form="direction">
-    <!-- this select list populated based on which line is chosen using an API
-         call...want to make the text more descriptive but depends on line
-         chosen by user. use dummy values 0 and 1 to test API calls tho -->
-    <option value="0">Towards First Stop</option>
-    <option value="1">Towards Last Stop</option>
-  </select>
+<div class="select">
+
+  <div class="selectBox">
+    <label for="line">Origin Line</label>
+    <select name="line" id="line" form="line" on:input={handleLine}>
+      <option></option> <!-- before adding this, selecting blue did nothing
+                             unless you selected another line, which would
+                             probably be really annoying as a user-->
+      <option value="Blue">Blue</option>
+      <option value="Green-B">Green Line - B</option>
+      <option value="Green-C">Green Line - C</option>
+      <option value="Green-D">Green Line - D</option>
+      <option value="Orange">Orange</option>
+      <option value="Red">Red</option>
+    </select>
+  </div>
+
+  <div class="selectBox">
+    <label for="stop">Origin Stop</label>
+    <!-- this select list populated based on which line is chosen using an API call -->
+    <select name="stop" id="stop" form="stop" on:input={handleStop}>
+      <option disabled>Please select a line first</option>
+    </select>
+  </div>
+
+  <div class="selectBox">
+    <label for="direction">Trip Direction</label>
+    <select name="direction" id="direction" form="direction">
+      <!-- this select list populated based on which line is chosen using an API
+           call...want to make the text more descriptive but depends on line
+           chosen by user. use dummy values 0 and 1 to test API calls tho -->
+      <option value="0">Towards First Stop</option>
+      <option value="1">Towards Last Stop</option>
+    </select>
+    </div>
 </div>
