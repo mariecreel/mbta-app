@@ -2,34 +2,82 @@
   import { onMount } from "svelte";
   const apiKey = "9692d1a17a814d86822248b3ee1b339d";
 
+  let line: string;
+  let stop: string;
+  let direction_id: string;
+  let fetchedLines = {};
+
   async function getStops(trainLine){
-    let apiURLStops = `https://api-v3.mbta.com/stops?api_key=${apiKey}&filter[route]=${trainLine}`
-    const response = await fetch(apiURLStops);
-    let object = await response.json();
-    let selectStop = document.getElementById("stop")
+    /* getStops(trainLine: string)
+      this function takes a string representing an MBTA subway line as input,
+      then fetches the stops on that subway line and populates the stop select
+      box based on the line selected by the user. If the stop select box has
+      been populated with options already, those options are removed and
+      replaced by the stop for the new line. In other words, the options of
+      the select box with id = stop changes every time a new line is selected
+      in the line select box.
+
+      On the first time that a certain line is passed as input, an array of
+      tuples containing the unique stop ID and stop Name is saved in an object
+      called fetchedLines. The next time that line is sent as input, instead
+      of making an API call, the stop selection box is populated by the
+      information stored in the fetchedLines object. This is intended to avoid
+      redundant API calls.
+       */
+
+    let selectStop = document.getElementById("stop");
 
     if(selectStop.children.length != 0){
       // want select list to clear every time we change lines
       while (selectStop.firstChild){
-        selectStop.removeChild(selectStop.lastChild)
+        selectStop.removeChild(selectStop.lastChild);
       }
     }
 
-    for(let i=0; i<object.data.length; i++){
-      // create an option for each stop
-      let option = document.createElement("option");
-      option.value = object.data[i].id
-      option.text = object.data[i].attributes.name
-      selectStop.appendChild(option)
+    if(fetchedLines[trainLine]){
+      console.log("Seen line")
+      for(let i = 0; i < fetchedLines[trainLine].length; i++){
+          let option = document.createElement("option");
+          option.value = fetchedLines[trainLine][i][0] // stopID
+          option.text = fetchedLines[trainLine][i][1] // stopName
+          selectStop.appendChild(option)
+      }
+
+    } else {
+      console.log("Unseen Line")
+      let apiURLStops = `https://api-v3.mbta.com/stops?api_key=${apiKey}&filter[route]=${trainLine}`
+      const response = await fetch(apiURLStops);
+      let object = await response.json();
+
+      fetchedLines[trainLine] = [];
+      // list of tuples, first string is stopID, second is stopName
+
+      for(let i=0; i<object.data.length; i++){
+        // create an option for each stop
+        let stopID: string = object.data[i].id;
+        let stopName: string = object.data[i].attributes.name;
+        let option = document.createElement("option");
+        fetchedLines[trainLine].push([stopID,stopName])
+        option.value = stopID
+        option.text = stopName
+        selectStop.appendChild(option)
+      }
     }
   }
 
-  function getLine(event){
+  function handleLine(event){
       if(this.value != ""){ // handling empty input at top of box
-        let line = this.value
+        line = this.value
+        console.log(line)
         getStops(line)
       }
     }
+  function handleStop(event){
+    if(this.value != ""){
+      stop = this.value;
+      console.log(stop)
+    }
+  }
 </script>
 
 <style>
@@ -41,7 +89,7 @@
 
 <div class="selectBox">
   <label for="line">Which line?</label>
-  <select name="line" id="line" form="line" on:input={getLine}>
+  <select name="line" id="line" form="line" on:input={handleLine}>
     <option></option> <!-- before adding this, selecting blue did nothing
                            unless you selected another line, which would
                            probably be really annoying as a user-->
@@ -54,8 +102,7 @@
   </select>
   <label for="stop">Which stop? (select line first)</label>
   <!-- this select list populated based on which line is chosen using an API call -->
-  <select name="stop" id="stop" form="stop">
-
+  <select name="stop" id="stop" form="stop" on:input={handleStop}>
     <option disabled>Please select a line first</option>
   </select>
   <label for="direction">Which direction?</label>
