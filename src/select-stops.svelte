@@ -1,10 +1,9 @@
-<script type="text/ts">
-  import { onMount } from "svelte";
+<script type="text/ts" context="module">
   const apiKey = "9692d1a17a814d86822248b3ee1b339d";
 
-  export let line: string; // these values are going to be used to make
-  export let stop: string; // predictions in a second component
-  export let directionID: string;
+  export let line: string = "Green-B"; // these values are going to be used to make
+  export let stop: string = "place-wrnst"; // predictions in a second component
+  export let directionID: string = "1";
   let fetchedLines = {};
 
   async function getStops(trainLine){

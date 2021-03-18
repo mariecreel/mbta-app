@@ -1,12 +1,9 @@
 <script type="text/ts">
   import { onMount } from "svelte";
-
+  import { line, stop, directionID } from './select-stops.svelte';
   let query = "predictions"
-  let route="Green-B";
-  let stop="place-wrnst"; // Warren st
-  let direction="1" //towards Park Street
   const apiKey = "9692d1a17a814d86822248b3ee1b339d";
-  const apiURL = `https://api-v3.mbta.com/${query}?api_key=${apiKey}&filter[route]=${route}&filter[stop]=${stop}&filter[direction_id]=${direction}&include=vehicle,trip,stop`;
+  let apiURL = `https://api-v3.mbta.com/${query}?api_key=${apiKey}&filter[route]=${line}&filter[stop]=${stop}&filter[direction_id]=${directionID}&include=vehicle,trip,stop`;
   // at some point, options for this query will be decided by user selections
   let object = {}; // want to avoid "data.data" later bc it's confusing
 
@@ -42,7 +39,7 @@
 -->
 <!--TODO: Need to handle the case that where there are multple vehicles
           because right now, when there are multiple, stop becomes undefined
-          note: data contains vehicle, but not headsign or stop name-->
+          note: data contains vehicle, but not headsign or st-->
   <div class="data-display">
     <h2>When will the next train arrive at my stop?</h2>
     <h3>Results: {object.data.length}</h3>
