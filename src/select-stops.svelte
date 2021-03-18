@@ -4,7 +4,7 @@
 
   export let line: string; // these values are going to be used to make
   export let stop: string; // predictions in a second component
-  export let direction_id: string;
+  export let directionID: string;
   let fetchedLines = {};
 
   async function getStops(trainLine){
@@ -35,13 +35,22 @@
       }
     }
 
+    let selectDirection = document.getElementById("direction");
+    // grab first and last stop for direction selections
+    // clear previous directions
+    if(selectDirection.children.length !=0){
+      while (selectDirection.firstChild){
+        selectDirection.removeChild(selectDirection.lastChild);
+      }
+    }
+
     if(fetchedLines[trainLine]){ // if we saved the stops on this line already
       console.log("Seen line")
       for(let i = 0; i < fetchedLines[trainLine].length; i++){
           let option = document.createElement("option");
-          option.value = fetchedLines[trainLine][i][0] // stopID
-          option.text = fetchedLines[trainLine][i][1] // stopName
-          selectStop.appendChild(option)
+          option.value = fetchedLines[trainLine][i][0]; // stopID
+          option.text = fetchedLines[trainLine][i][1]; // stopName
+          selectStop.appendChild(option);
       }
 
     } else { // else we haven't fetched the stops for this line yet
@@ -58,6 +67,18 @@
         let stopID: string = object.data[i].id;
         let stopName: string = object.data[i].attributes.name;
         let option = document.createElement("option");
+        if(i == 0){
+          let firstStop = document.createElement("option");
+          firstStop.value = 0;
+          firstStop.text = stopName;
+          selectDirection.appendChild(firstStop);
+        } else if(i == object.data.length-1){
+          let lastStop = document.createElement("option");
+          lastStop.value = 1;
+          lastStop.text = stopName;
+          selectDirection.appendChild(lastStop)
+        }
+
         fetchedLines[trainLine].push([stopID,stopName])
         option.value = stopID
         option.text = stopName
@@ -80,7 +101,12 @@
       console.log(stop)
     }
   }
-
+  function handleDirection(event){
+    if (this.value!=""){
+      directionID = this.value
+      console.log(directionID)
+    }
+  }
 </script>
 
 <style>
@@ -124,12 +150,10 @@
 
   <div class="selectBox">
     <label for="direction">Trip Direction</label>
-    <select name="direction" id="direction" form="direction">
+    <select name="direction" id="direction" form="direction" on:input={handleDirection}>
       <!-- this select list populated based on which line is chosen using an API
            call...want to make the text more descriptive but depends on line
            chosen by user. use dummy values 0 and 1 to test API calls tho -->
-      <option value="0">Towards First Stop</option>
-      <option value="1">Towards Last Stop</option>
     </select>
     </div>
 </div>
