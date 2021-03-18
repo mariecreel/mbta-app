@@ -142,7 +142,7 @@
 
   <div class="selectBox">
     <label for="stop">Origin Stop</label>
-    <!-- this select list populated based on which line is chosen using an API call -->
+    <!-- this select list populated based on which line is chosen -->
     <select name="stop" id="stop" form="stop" on:input={handleStop}>
       <option disabled>Please select a line first</option>
     </select>
@@ -151,9 +151,7 @@
   <div class="selectBox">
     <label for="direction">Trip Direction</label>
     <select name="direction" id="direction" form="direction" on:input={handleDirection}>
-      <!-- this select list populated based on which line is chosen using an API
-           call...want to make the text more descriptive but depends on line
-           chosen by user. use dummy values 0 and 1 to test API calls tho -->
+      <!-- this select list populated based on which line is chosen -->
     </select>
     </div>
 </div>
