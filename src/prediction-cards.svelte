@@ -5,6 +5,7 @@
   export let stop: string;
   export let line: string;
   export let directionID: string;
+  let headsign: string;
   $: apiURL = `https://api-v3.mbta.com/${query}?api_key=${apiKey}&filter[route]=${line}&filter[stop]=${stop}&filter[direction_id]=${directionID}&include=trip,stop`;
   // at some point, options for this query will be decided by user selections
   let object = {}; // want to avoid "data.data" later bc it's confusing
@@ -15,6 +16,17 @@
     object = await response.json();
     count += 1
     directionID = "" // if we don't do this, first user change won't trigger fetchPrediction()
+    let seenHeadsign = false
+    while (seenHeadsign == false){
+      if(object.included){
+        for(let i = 0; i<object.included.length; i++){
+          if(object.included[i].type == "trip"){
+            headsign = object.included[i].attributes.headsign;
+            seenHeadsign = true
+          }
+        }
+      }
+    }
     console.log(object) // debug
     console.log(count)
   }
@@ -62,15 +74,13 @@
         <p>{prediction.relationships.route.data.id}</p>
         {#each object.included as included}
           {#if included.type == "stop"}
-          <h3>Stop</h3>
+            <h3>Stop</h3>
             <p>{included.attributes.name} </p>
           {/if}
-          {#if included.type == "trip"}
-            <h3>Direction</h3>
-            <p>{included.attributes.headsign}</p>
-          {/if}
-          <!-- headsign = last stop on current route, depening on direction -->
         {/each}
+          <h3>Direction</h3>
+          <p>{headsign}</p>
+          <!-- headsign = last stop on current route, depening on direction -->
         <h3>Arrival Time</h3>
         <p>{new Date(prediction.attributes.arrival_time).toTimeString()}</p>
         <!-- make time human readable -->
