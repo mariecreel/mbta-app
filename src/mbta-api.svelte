@@ -15,6 +15,7 @@
     const response = await fetch(apiURL);
     object = await response.json();
     count += 1
+    console.log(object)
     console.log(count)
   }
 
