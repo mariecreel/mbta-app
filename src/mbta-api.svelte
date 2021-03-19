@@ -1,17 +1,26 @@
 <script type="text/ts">
-  import { tick, afterUpdate } from "svelte";
+  import { afterUpdate } from "svelte";
   let query = "predictions"
   const apiKey = "9692d1a17a814d86822248b3ee1b339d";
   export let stop: string;
   export let line: string;
   export let directionID: string;
+  export let stopName: string;
   $: apiURL = `https://api-v3.mbta.com/${query}?api_key=${apiKey}&filter[route]=${line}&filter[stop]=${stop}&filter[direction_id]=${directionID}&include=vehicle,trip,stop`;
   // at some point, options for this query will be decided by user selections
   let object = {}; // want to avoid "data.data" later bc it's confusing
-  afterUpdate(async function(){
+  let count = 0
+
+  async function fetchPrediction(){
     const response = await fetch(apiURL);
     object = await response.json();
-  })
+    count += 1
+    console.log(count)
+  }
+
+  $: if (directionID){
+    fetchPrediction()
+  }
 
 
 </script>
@@ -50,7 +59,7 @@
         <h3>Line</h3>
         <p>{prediction.relationships.route.data.id}</p>
         <h3>Stop</h3>
-        <p>{stop} </p>
+        <p>{object.included[1].attributes.name} </p>
         <h3>Direction</h3>
         <p>{object.included[0].attributes.headsign}</p>
         <!-- headsign = last stop on current route, depening on direction -->
