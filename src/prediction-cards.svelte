@@ -18,21 +18,18 @@
     directionID = "" // if we don't do this, first user change won't trigger fetchPrediction()
 
     // need to get headsign from trip included
-    let seenHeadsign = false
-    while (seenHeadsign == false){
-      if(object.included){
-        for(let i = 0; i<object.included.length; i++){
-          if(object.included[i].type == "trip"){
-            headsign = object.included[i].attributes.headsign;
-            seenHeadsign = true
+
+    if(object.included){
+      for(let i = 0; i<object.included.length; i++){
+        if(object.included[i].type == "trip"){
+          headsign = object.included[i].attributes.headsign;
+          break;
           }
         }
       }
+      console.log(object) // debug
+      console.log(count)
     }
-
-    console.log(object) // debug
-    console.log(count)
-  }
 
   $: if (directionID!=""){
     // we want to make an API call each time the direction ID is changed
