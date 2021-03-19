@@ -1,17 +1,19 @@
 <script type="text/ts">
-  import { onMount } from "svelte";
-  import { line, stop, directionID } from './select-stops.svelte';
+  import { tick, afterUpdate } from "svelte";
   let query = "predictions"
   const apiKey = "9692d1a17a814d86822248b3ee1b339d";
-  let apiURL = `https://api-v3.mbta.com/${query}?api_key=${apiKey}&filter[route]=${line}&filter[stop]=${stop}&filter[direction_id]=${directionID}&include=vehicle,trip,stop`;
+  export let stop: string;
+  export let line: string;
+  export let directionID: string;
+  $: apiURL = `https://api-v3.mbta.com/${query}?api_key=${apiKey}&filter[route]=${line}&filter[stop]=${stop}&filter[direction_id]=${directionID}&include=vehicle,trip,stop`;
   // at some point, options for this query will be decided by user selections
   let object = {}; // want to avoid "data.data" later bc it's confusing
-
-  onMount(async function(){
+  afterUpdate(async function(){
     const response = await fetch(apiURL);
     object = await response.json();
-    console.log(object)
-  });
+  })
+
+
 </script>
 
 <style type="text/css">
@@ -48,7 +50,7 @@
         <h3>Line</h3>
         <p>{prediction.relationships.route.data.id}</p>
         <h3>Stop</h3>
-        <p>{object.included[2].attributes.name} </p>
+        <p>{stop} </p>
         <h3>Direction</h3>
         <p>{object.included[0].attributes.headsign}</p>
         <!-- headsign = last stop on current route, depening on direction -->

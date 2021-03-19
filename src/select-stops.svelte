@@ -1,9 +1,15 @@
-<script type="text/ts" context="module">
+<script type="text/ts">
+  import Mbtaapi from './mbta-api.svelte';
   const apiKey = "9692d1a17a814d86822248b3ee1b339d";
 
-  export let line: string = "Green-B"; // these values are going to be used to make
-  export let stop: string = "place-wrnst"; // predictions in a second component
-  export let directionID: string = "1";
+  $: line = "Green-B"; // these values are going to be used to make
+  $: stop = "place-wrnst"; // predictions in a second component
+  $: directionID = "1";
+  $: props = {
+    line: line,
+    stop: stop,
+    directionID: directionID
+  }
   let fetchedLines = {};
 
   async function getStops(trainLine){
@@ -103,7 +109,8 @@
   function handleDirection(event){
     if (this.value!=""){
       directionID = this.value
-      console.log(directionID)
+      props = props;
+      console.log(props)
     }
   }
 </script>
@@ -154,3 +161,4 @@
     </select>
     </div>
 </div>
+<Mbtaapi {...props}/>
