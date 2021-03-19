@@ -1,5 +1,5 @@
 <script type="text/ts">
-  import Mbtaapi from './mbta-api.svelte';
+  import PredictionCards from './prediction-cards.svelte';
   const apiKey = "9692d1a17a814d86822248b3ee1b339d";
 
   $: line = "Green-B"; // these values are going to be used to make
@@ -163,4 +163,4 @@
     </select>
     </div>
 </div>
-<Mbtaapi {...props}/>
+<PredictionCards {...props}/>

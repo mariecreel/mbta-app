@@ -5,8 +5,7 @@
   export let stop: string;
   export let line: string;
   export let directionID: string;
-  export let stopName: string;
-  $: apiURL = `https://api-v3.mbta.com/${query}?api_key=${apiKey}&filter[route]=${line}&filter[stop]=${stop}&filter[direction_id]=${directionID}&include=vehicle,trip,stop`;
+  $: apiURL = `https://api-v3.mbta.com/${query}?api_key=${apiKey}&filter[route]=${line}&filter[stop]=${stop}&filter[direction_id]=${directionID}&include=trip,stop`;
   // at some point, options for this query will be decided by user selections
   let object = {}; // want to avoid "data.data" later bc it's confusing
   let count = 0
@@ -61,11 +60,17 @@
       <div class="data-item">
         <h3>Line</h3>
         <p>{prediction.relationships.route.data.id}</p>
-        <h3>Stop</h3>
-        <p>{object.included[1].attributes.name} </p>
-        <h3>Direction</h3>
-        <p>{object.included[0].attributes.headsign}</p>
-        <!-- headsign = last stop on current route, depening on direction -->
+        {#each object.included as included}
+          {#if included.type == "stop"}
+          <h3>Stop</h3>
+            <p>{included.attributes.name} </p>
+          {/if}
+          {#if included.type == "trip"}
+            <h3>Direction</h3>
+            <p>{included.attributes.headsign}</p>
+          {/if}
+          <!-- headsign = last stop on current route, depening on direction -->
+        {/each}
         <h3>Arrival Time</h3>
         <p>{new Date(prediction.attributes.arrival_time).toTimeString()}</p>
         <!-- make time human readable -->
