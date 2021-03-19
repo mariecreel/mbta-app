@@ -35,8 +35,6 @@
     // we want to make an API call each time the direction ID is changed
     fetchPrediction()
   }
-
-
 </script>
 
 <style type="text/css">
