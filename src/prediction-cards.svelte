@@ -16,6 +16,8 @@
     object = await response.json();
     count += 1
     directionID = "" // if we don't do this, first user change won't trigger fetchPrediction()
+
+    // need to get headsign from trip included
     let seenHeadsign = false
     while (seenHeadsign == false){
       if(object.included){
@@ -27,6 +29,7 @@
         }
       }
     }
+
     console.log(object) // debug
     console.log(count)
   }
