@@ -15,11 +15,12 @@
     const response = await fetch(apiURL);
     object = await response.json();
     count += 1
+    directionID = ""
     console.log(object)
     console.log(count)
   }
 
-  $: if (directionID){
+  $: if (directionID!=""){
     fetchPrediction()
   }
 
