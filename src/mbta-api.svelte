@@ -15,12 +15,13 @@
     const response = await fetch(apiURL);
     object = await response.json();
     count += 1
-    directionID = ""
-    console.log(object)
+    directionID = "" // if we don't do this, first user change won't trigger fetchPrediction()
+    console.log(object) // debug
     console.log(count)
   }
 
   $: if (directionID!=""){
+    // we want to make an API call each time the direction ID is changed
     fetchPrediction()
   }
 
