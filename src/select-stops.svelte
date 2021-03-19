@@ -43,7 +43,7 @@
     let selectDirection = document.getElementById("direction");
     // grab first and last stop for direction selections
     // clear previous directions
-    // TODO: this doesn't set proper names for red line stops...
+    // TODO: this doesn't set proper names for Red, Blue, Orange...
     // directions are opposite of what we expect here
     if(selectDirection.children.length !=0){
       while (selectDirection.firstChild){
