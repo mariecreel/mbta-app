@@ -3,7 +3,7 @@
 </script>
 
 <main>
-	<h1>MBTA Subway System</h1>
+	<h1>MBTA Arrival Predictions</h1>
 </main>
 <SelectStops/>
 
